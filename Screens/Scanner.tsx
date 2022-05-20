@@ -7,7 +7,11 @@ import BarcodeMask from 'react-native-barcode-mask';
 
 export const Scanner = () => {
     const cameraRef = useRef<any>();
-
+    
+    const OnBarcodeRead = (e: any) => {
+        console.log(e)
+        Alert.alert(e.data)
+    }
     return (
         <View style={styles.container} >
             <CloseModalHeader style={styles.headerScan} />
@@ -16,7 +20,7 @@ export const Scanner = () => {
                 style={styles.previewScan}
                 type={RNCamera.Constants.Type.back}
                 flashMode={RNCamera.Constants.FlashMode.on}
-                onBarCodeRead={OnBarCodeRead}
+                onBarCodeRead={(e) => OnBarcodeRead(e)}
                 androidCameraPermissionOptions={{
                     title: 'Permission to use camera',
                     message: 'We need your permission to use your camera',
@@ -24,7 +28,7 @@ export const Scanner = () => {
                     buttonNegative: 'Cancel',
                 }}
             >
-                <BarcodeMask width={350} height={200} showAnimatedLine={false} outerMaskOpacity={0.1} />
+                <BarcodeMask width={350} height={300} showAnimatedLine={false} outerMaskOpacity={0.1} />
             </RNCamera>
             <View style={styles.scanFooter}>
                 <Text> Place internal Code in center of the area </Text>
