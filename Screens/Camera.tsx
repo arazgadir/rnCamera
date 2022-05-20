@@ -15,7 +15,6 @@ export const Camera: FC<Props> = ({ navigation }) => {
     const [isAddPicVisible, setIsAddPicVisible] = useState(false)
     const [isOtherDoc, setIsOtherDoc] = useState(false)
     const [pic, setPic] = useState([])
-    console.log(pic, 'usestate')
 
     const takePicture = async () => {
         if (cameraRef && !takePic) {
@@ -30,14 +29,11 @@ export const Camera: FC<Props> = ({ navigation }) => {
         setTakepic(true);
         setIsAddPicVisible(true)
         countPic == 1 && setCountPic(prev => prev + 1)
-
     };
     const handleAddPhoto = () => {
         if (countPic == 2) {
             setTakepic(true)
             setIsAddPicAllowed(false)
-
-            // pokazat 2 sfotogrofirovannie kartinki na ekrane 
         }
         else {
             !takePic || setTakepic(prev => !prev)
@@ -54,10 +50,21 @@ export const Camera: FC<Props> = ({ navigation }) => {
             setTakepic(prev => !prev)
             setCountPic(0)
             setIsAddPicVisible(prev => !prev)
-            // setIsAddPicAllowed(true)
+            setIsAddPicAllowed(true)
             setPic([])
-
         }
+    }
+
+    const handleDeletePic = (item: any) => {
+        if(pic.length == 1){
+            setPic([]) 
+            setIsAddPicAllowed(true)
+            setIsAddPicVisible(false)
+            setCountPic(0)
+        }else{
+            pic.splice(pic.indexOf(item),1)
+        }
+        setTakepic(false)
     }
     return (
         <View style={styles.container}>
@@ -80,8 +87,18 @@ export const Camera: FC<Props> = ({ navigation }) => {
             />
             {!isAddPicAllowed ?
                 <View style={styles.picContainer}>
-                    <Image style={styles.pic} source={{ uri: pic[0] }} />
-                    <Image style={styles.pic} source={{ uri: pic[1] }} />
+                    <View >
+                        <Image style={styles.pic} source={{ uri: pic[0] }} />
+                        <Pressable onPress={() => handleDeletePic(pic[0])} style={styles.delPic}>
+                            <Text>x</Text>
+                        </Pressable>
+                    </View>
+                    <View>
+                        <Image style={styles.pic} source={{ uri: pic[1] }} />
+                        <Pressable onPress={() =>  handleDeletePic(pic[1]) } style={styles.delPic}>
+                            <Text>x</Text>
+                        </Pressable>
+                    </View>
                 </View>
                 : <></>
             }
@@ -106,7 +123,6 @@ export const Camera: FC<Props> = ({ navigation }) => {
                     <Text style={{ color: isOtherDoc ? 'black' : 'white' }} > Other Document </Text>
                 </Pressable>
             </View>
-
         </View>
     )
 }
@@ -186,6 +202,10 @@ const styles = StyleSheet.create({
         margin: 5,
         borderWidth: 1,
         overflow: 'hidden',
+    },
+    delPic: {
+        position: 'absolute',
+        right: 10,
+        top: 5,
     }
-
 })
