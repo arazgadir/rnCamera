@@ -11,13 +11,21 @@ export const Camera: FC<Props> = ({ navigation }) => {
     const cameraRef = useRef<any>();
     const [takePic, setTakepic] = useState(false)
     const [countPic, setCountPic] = useState(0)
+    const [isAddPicAllowed, setIsAddPicAllowed] = useState(true)
     const [isAddPicVisible, setIsAddPicVisible] = useState(false)
+    const [isOtherDoc, setIsOtherDoc] = useState(false)
+    const [pic, setPic] = useState('')
 
     const takePicture = async () => {
         if (cameraRef && !takePic) {
             const options = { quality: 0.5, base64: true };
             const data = await cameraRef.current.takePictureAsync(options)
-            console.log(data.uri);
+            setPic(data.uri)
+            console.log(data.uri)
+        }
+        else if (takePic && !isAddPicAllowed) {
+            //navigate to Estest Express Lines Screen
+            navigation.navigate('Home') //for example
         }
         setTakepic(true);
         setIsAddPicVisible(true)
@@ -25,20 +33,32 @@ export const Camera: FC<Props> = ({ navigation }) => {
 
     };
     const handleAddPhoto = () => {
-        !takePic || setTakepic(prev => !prev)
-        countPic == 2 || !takePic || setCountPic(prev => prev + 1)
-        countPic == 2 && setTakepic(false)
+        if (countPic == 2) {
+            setTakepic(true)
+            setIsAddPicAllowed(false)
+            // pokazat 2 sfotogrofirovannie kartinki na ekrane 
+        }
+        else {
+            !takePic || setTakepic(prev => !prev)
+            countPic == 2 || !takePic || setCountPic(prev => prev + 1)
+            countPic == 2 && setTakepic(false)
+        }
     }
 
     const handleReloadCam = () => {
-        setTakepic(prev => !prev)
-        setCountPic(0)
-        setIsAddPicVisible(prev => !prev)
+        if (!takePic) {
+            navigation.goBack() //for exaple 
+            //go to Gallery 
+        } else {
+            setTakepic(prev => !prev)
+            setCountPic(0)
+            setIsAddPicVisible(prev => !prev)
+        }
     }
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Pressable onPress={() => navigation.navigate('Home')}>
+                <Pressable onPress={() => navigation.goBack()}>
                     <Image style={styles.closeIcon} resizeMode="contain" source={closeIcon} />
                 </Pressable>
             </View>
@@ -54,25 +74,37 @@ export const Camera: FC<Props> = ({ navigation }) => {
                     buttonNegative: 'Cancel',
                 }}
             />
+            {!isAddPicAllowed ?
+                <View style={styles.picContainer}>
+                    <Image
+                        style={styles.pic}
+                        source={{uri: pic}}
+                    />
+                </View>
+                : <></>
+
+
+            }
+
             <View style={styles.camFooter}>
-                <TouchableOpacity onPress={() => handleReloadCam()} style={styles.showPic}>
+                <Pressable onPress={() => handleReloadCam()} style={styles.showPic}>
                     <Text>{takePic ? 're' : 'ph'}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={takePicture} style={{ ...styles.capture, backgroundColor: takePic ? 'blue' : 'white' }}>
+                </Pressable>
+                <Pressable onPress={takePicture} style={{ ...styles.capture, backgroundColor: takePic ? 'blue' : 'white' }}>
                     <Text>✓</Text>
-                </TouchableOpacity>
+                </Pressable>
                 {isAddPicVisible ?
-                    <TouchableOpacity onPress={() => handleAddPhoto()} style={styles.showPic}>
-                        <Text> {isAddPicVisible ? countPic || '+' : '+'} </Text>
-                    </TouchableOpacity> : <></>
+                    <Pressable onPress={() => handleAddPhoto()} style={styles.showPic}>
+                        <Text> {isAddPicAllowed ? countPic || '+' : 'x'} </Text>
+                    </Pressable> : <></>
                 }
             </View>
             <View style={styles.docFooter}>
-                <Pressable >
-                    <Text > Bill of Lading </Text>
+                <Pressable onPress={() => setIsOtherDoc(false)} style={isOtherDoc ? null : styles.docTypeChoosen}>
+                    <Text style={{ color: isOtherDoc ? 'white' : 'black', }} > Bill of Lading </Text>
                 </Pressable>
-                <Pressable >
-                    <Text> Other Document </Text>
+                <Pressable onPress={() => setIsOtherDoc(true)} style={isOtherDoc ? styles.docTypeChoosen : null} >
+                    <Text style={{ color: isOtherDoc ? 'black' : 'white' }} > Other Document </Text>
                 </Pressable>
             </View>
 
@@ -124,12 +156,29 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30,
         alignSelf: 'center',
         margin: 20,
-
     },
     docFooter: {
         flexDirection: 'row',
-        paddingBottom: 30,
-        justifyContent: 'center'
+        paddingBottom: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'grey ',
+        alignContent: 'space-around'
     },
+    docTypeChoosen: {
+        backgroundColor: '#fff',
+        borderRadius: 20,
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        marginHorizontal: 20
+    },
+    picContainer: {
+        flex: 1
+    },
+    pic: {
+        height: 60 ,
+        width: 60,
+        borderRadius: 10
+    }
 
 })
