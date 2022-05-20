@@ -14,14 +14,14 @@ export const Camera: FC<Props> = ({ navigation }) => {
     const [isAddPicAllowed, setIsAddPicAllowed] = useState(true)
     const [isAddPicVisible, setIsAddPicVisible] = useState(false)
     const [isOtherDoc, setIsOtherDoc] = useState(false)
-    const [pic, setPic] = useState('')
+    const [pic, setPic] = useState([])
+    console.log(pic, 'usestate')
 
     const takePicture = async () => {
         if (cameraRef && !takePic) {
             const options = { quality: 0.5, base64: true };
             const data = await cameraRef.current.takePictureAsync(options)
-            setPic(data.uri)
-            console.log(data.uri)
+            pic.push(data.uri)
         }
         else if (takePic && !isAddPicAllowed) {
             //navigate to Estest Express Lines Screen
@@ -36,6 +36,7 @@ export const Camera: FC<Props> = ({ navigation }) => {
         if (countPic == 2) {
             setTakepic(true)
             setIsAddPicAllowed(false)
+
             // pokazat 2 sfotogrofirovannie kartinki na ekrane 
         }
         else {
@@ -53,6 +54,9 @@ export const Camera: FC<Props> = ({ navigation }) => {
             setTakepic(prev => !prev)
             setCountPic(0)
             setIsAddPicVisible(prev => !prev)
+            // setIsAddPicAllowed(true)
+            setPic([])
+
         }
     }
     return (
@@ -76,16 +80,11 @@ export const Camera: FC<Props> = ({ navigation }) => {
             />
             {!isAddPicAllowed ?
                 <View style={styles.picContainer}>
-                    <Image
-                        style={styles.pic}
-                        source={{uri: pic}}
-                    />
+                    <Image style={styles.pic} source={{ uri: pic[0] }} />
+                    <Image style={styles.pic} source={{ uri: pic[1] }} />
                 </View>
                 : <></>
-
-
             }
-
             <View style={styles.camFooter}>
                 <Pressable onPress={() => handleReloadCam()} style={styles.showPic}>
                     <Text>{takePic ? 're' : 'ph'}</Text>
@@ -173,12 +172,20 @@ const styles = StyleSheet.create({
         marginHorizontal: 20
     },
     picContainer: {
-        flex: 1
+        position: 'absolute',
+        left: 0,
+        right: 40,
+        bottom: 140,
+        justifyContent: 'center',
+        alignItems: 'flex-end'
     },
     pic: {
-        height: 60 ,
+        height: 60,
         width: 60,
-        borderRadius: 10
+        borderRadius: 10,
+        margin: 5,
+        borderWidth: 1,
+        overflow: 'hidden',
     }
 
 })
