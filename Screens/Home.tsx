@@ -12,6 +12,9 @@ export const Home: FC<Props> = ({navigation}) => {
             <Pressable style={styles.cameraBtn} onPress={() => navigation.navigate('Camera')}>
                 <Text> Open Camera </Text>
             </Pressable>
+            <Pressable style={styles.cameraBtn} onPress={() => navigation.navigate('Scanner')}>
+                <Text> Open Scanner </Text>
+            </Pressable>
         </View>
     )
 }
@@ -25,6 +28,7 @@ const styles = StyleSheet.create({
     cameraBtn: {
         borderWidth: 2,
         padding: 10,
-        backgroundColor: 'black'
+        backgroundColor: 'black',
+        margin: 5
     }
 })

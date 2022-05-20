@@ -1,13 +1,14 @@
 import React, { FC, useRef, useState } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Image, Pressable } from 'react-native'
+import { View, Text, StyleSheet, Image, Pressable } from 'react-native'
 import { RNCamera } from 'react-native-camera';
-import { closeIcon } from '../Assets/Icons';
+// import { closeIcon } from '../Assets/Icons';
+import { useNavigation } from '@react-navigation/native';
+import { CloseModalHeader } from '../Components/CloseModalHeader';
 
-interface Props {
-    navigation: any
-};
 
-export const Camera: FC<Props> = ({ navigation }) => {
+
+export const Camera = () => {
+    const navigation = useNavigation();
     const cameraRef = useRef<any>();
     const [takePic, setTakepic] = useState(false)
     const [countPic, setCountPic] = useState(0)
@@ -24,7 +25,7 @@ export const Camera: FC<Props> = ({ navigation }) => {
         }
         else if (takePic && !isAddPicAllowed) {
             //navigate to Estest Express Lines Screen
-            navigation.navigate('Home') //for example
+            navigation.goBack() //for example
         }
         setTakepic(true);
         setIsAddPicVisible(true)
@@ -56,26 +57,27 @@ export const Camera: FC<Props> = ({ navigation }) => {
     }
 
     const handleDeletePic = (item: any) => {
-        if(pic.length == 1){
-            setPic([]) 
+        if (pic.length == 1) {
+            setPic([])
             setIsAddPicAllowed(true)
             setIsAddPicVisible(false)
             setCountPic(0)
-        }else{
-            pic.splice(pic.indexOf(item),1)
+        } else {
+            pic.splice(pic.indexOf(item), 1)
         }
         setTakepic(false)
     }
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
+            {/* <View style={styles.header}>
                 <Pressable onPress={() => navigation.goBack()}>
                     <Image style={styles.closeIcon} resizeMode="contain" source={closeIcon} />
                 </Pressable>
-            </View>
+            </View> */}
+            <CloseModalHeader style={styles.headerCam} />
             <RNCamera
                 ref={cameraRef}
-                style={styles.preview}
+                style={styles.previewCam}
                 type={RNCamera.Constants.Type.back}
                 flashMode={RNCamera.Constants.FlashMode.on}
                 androidCameraPermissionOptions={{
@@ -84,24 +86,26 @@ export const Camera: FC<Props> = ({ navigation }) => {
                     buttonPositive: 'Ok',
                     buttonNegative: 'Cancel',
                 }}
-            />
-            {!isAddPicAllowed ?
-                <View style={styles.picContainer}>
-                    <View >
-                        <Image style={styles.pic} source={{ uri: pic[0] }} />
-                        <Pressable onPress={() => handleDeletePic(pic[0])} style={styles.delPic}>
-                            <Text>x</Text>
-                        </Pressable>
+            >
+                {!isAddPicAllowed ?
+                    <View style={styles.picContainer}>
+                        <View >
+                            <Image style={styles.pic} source={{ uri: pic[0] }} />
+                            <Pressable onPress={() => handleDeletePic(pic[0])} style={styles.delPic}>
+                                <Text>x</Text>
+                            </Pressable>
+                        </View>
+                        <View>
+                            <Image style={styles.pic} source={{ uri: pic[1] }} />
+                            <Pressable onPress={() => handleDeletePic(pic[1])} style={styles.delPic}>
+                                <Text>x</Text>
+                            </Pressable>
+                        </View>
                     </View>
-                    <View>
-                        <Image style={styles.pic} source={{ uri: pic[1] }} />
-                        <Pressable onPress={() =>  handleDeletePic(pic[1]) } style={styles.delPic}>
-                            <Text>x</Text>
-                        </Pressable>
-                    </View>
-                </View>
-                : <></>
-            }
+                    : <></>
+                }
+            </RNCamera>
+
             <View style={styles.camFooter}>
                 <Pressable onPress={() => handleReloadCam()} style={styles.showPic}>
                     <Text>{takePic ? 're' : 'ph'}</Text>
@@ -133,19 +137,14 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: 'black',
     },
-    header: {
+    headerCam: {
         paddingVertical: 35,
         alignItems: 'flex-end',
         right: 10
     },
-    closeIcon: {
-        width: 40,
-        height: 40,
-    },
-    preview: {
+    previewCam: {
         flex: 1,
         justifyContent: 'flex-end',
-        alignItems: 'center',
     },
     camFooter: {
         flex: 0,
@@ -188,11 +187,9 @@ const styles = StyleSheet.create({
         marginHorizontal: 20
     },
     picContainer: {
-        position: 'absolute',
-        left: 0,
+        marginLeft: 10,
         right: 40,
-        bottom: 140,
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
         alignItems: 'flex-end'
     },
     pic: {
