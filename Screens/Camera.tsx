@@ -1,11 +1,8 @@
 import React, { FC, useRef, useState } from 'react'
 import { View, Text, StyleSheet, Image, Pressable } from 'react-native'
 import { RNCamera } from 'react-native-camera';
-// import { closeIcon } from '../Assets/Icons';
 import { useNavigation } from '@react-navigation/native';
 import { CloseModalHeader } from '../Components/CloseModalHeader';
-
-
 
 export const Camera = () => {
     const navigation = useNavigation();
@@ -24,7 +21,6 @@ export const Camera = () => {
             pic.push(data.uri)
         }
         else if (takePic && !isAddPicAllowed) {
-            //navigate to Estest Express Lines Screen
             navigation.goBack() //for example
         }
         setTakepic(true);
@@ -45,8 +41,7 @@ export const Camera = () => {
 
     const handleReloadCam = () => {
         if (!takePic) {
-            navigation.goBack() //for exaple 
-            //go to Gallery 
+            navigation.goBack() //for exaple
         } else {
             setTakepic(prev => !prev)
             setCountPic(0)
@@ -69,11 +64,6 @@ export const Camera = () => {
     }
     return (
         <View style={styles.container}>
-            {/* <View style={styles.header}>
-                <Pressable onPress={() => navigation.goBack()}>
-                    <Image style={styles.closeIcon} resizeMode="contain" source={closeIcon} />
-                </Pressable>
-            </View> */}
             <CloseModalHeader style={styles.headerCam} />
             <RNCamera
                 ref={cameraRef}
@@ -105,7 +95,6 @@ export const Camera = () => {
                     : <></>
                 }
             </RNCamera>
-
             <View style={styles.camFooter}>
                 <Pressable onPress={() => handleReloadCam()} style={styles.showPic}>
                     <Text>{takePic ? 're' : 'ph'}</Text>

@@ -9,7 +9,6 @@ export const Scanner = () => {
     const cameraRef = useRef<any>();
     
     const OnBarcodeRead = (e: any) => {
-        console.log(e)
         Alert.alert(e.data)
     }
     return (
