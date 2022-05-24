@@ -1,7 +1,6 @@
 import React, { useRef } from 'react'
 import { View, StyleSheet, Text, Alert } from 'react-native'
 import { RNCamera } from 'react-native-camera';
-import { useNavigation } from '@react-navigation/native';
 import { CloseModalHeader } from '../Components/CloseModalHeader';
 import BarcodeMask from 'react-native-barcode-mask';
 

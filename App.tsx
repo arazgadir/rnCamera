@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Home } from './Screens/Home';
 import { Camera } from './Screens/Camera';
 import { Scanner } from './Screens/Scanner';
+import { QRcode } from './Screens/QRcode';
 
 const { Screen, Navigator, Group } = createNativeStackNavigator();
 export const App = () => {
@@ -21,6 +22,11 @@ export const App = () => {
           <Screen
             name='Scanner'
             component={Scanner}
+            options={{ headerShown: false }}
+          />
+          <Screen
+            name='QRcode'
+            component={QRcode}
             options={{ headerShown: false }}
           />
         </Group>

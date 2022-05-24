@@ -95,7 +95,7 @@ export const Camera = () => {
                     : <></>
                 }
             </RNCamera>
-            <View style={styles.camFooter}>
+            <View style={{  ...styles.camFooter2, right: isAddPicVisible? 0 : 50 }}>
                 <Pressable onPress={() => handleReloadCam()} style={styles.showPic}>
                     <Text>{takePic ? 're' : 'ph'}</Text>
                 </Pressable>
@@ -135,7 +135,11 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-end',
     },
-    camFooter: {
+    camFooter1: {
+        flex: 0,
+        flexDirection: 'row',
+    },
+    camFooter2: {
         flex: 0,
         flexDirection: 'row',
         justifyContent: 'center',

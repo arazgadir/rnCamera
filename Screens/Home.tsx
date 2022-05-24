@@ -15,6 +15,9 @@ export const Home: FC<Props> = ({navigation}) => {
             <Pressable style={styles.cameraBtn} onPress={() => navigation.navigate('Scanner')}>
                 <Text> Open Scanner </Text>
             </Pressable>
+            <Pressable style={styles.cameraBtn} onPress={() => navigation.navigate('QRcode')}>
+                <Text> Open QR </Text>
+            </Pressable>
         </View>
     )
 }
