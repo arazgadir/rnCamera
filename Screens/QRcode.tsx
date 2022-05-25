@@ -6,6 +6,7 @@ import QRCode from 'react-native-qrcode-svg'
 import SignatureCapture from 'react-native-signature-capture';
 
 export const QRcode = () => {
+    const link = "http://awesome.link.qr"
     const signatureViewRef = useRef<any>();
     const [isManualSign, setIsManualSign] = useState(false)
     const [isSigned, setIsSigned] = useState(false)
@@ -19,14 +20,23 @@ export const QRcode = () => {
         }
     }
 
-    const onSaveSign = useCallback(event => {
-        signatureViewRef.current.saveImage()
-        Alert.alert('Sign saved sucsessfully')
-    }, []);
+    const onSaveSign = () => {
+        console.log('is SIGNED IN FUNCTION: ', isSigned)
+        if(isSigned){
+            signatureViewRef.current.saveImage()
+            Alert.alert('Sign saved sucsessfully')
+            setIsSigned(false)
+
+        }
+    };
 
     const onDragEvent = () => {
         setIsSigned(true)
     }
+
+    const onSaveEvent = (result: any) => {
+        console.log(result.encoded)
+    } 
 
     return (
         <View style={styles.container}>
@@ -37,6 +47,7 @@ export const QRcode = () => {
                     <SignatureCapture
                         ref={signatureViewRef}
                         style={styles.signature}
+                        onSaveEvent={onSaveEvent}
                         onDragEvent={onDragEvent}
                         saveImageFileInExtStorage={false}
                         showNativeButtons={false}
@@ -48,7 +59,7 @@ export const QRcode = () => {
                     />
                     :
                     <QRCode
-                        value="http://awesome.link.qr"
+                        value={link}
                         size={250}
                     />
                 }
@@ -58,7 +69,7 @@ export const QRcode = () => {
                 <Pressable style={styles.AddManually} onPress={addManuallySign}>
                     <Text style={{ fontWeight: 'bold', color: isSigned ? 'white' : '#A6ACAF' }}> {isManualSign ? 'Retake' : 'Add Manually'} </Text>
                 </Pressable>
-                <Pressable style={styles.confirm} onPress={onSaveSign}>
+                <Pressable style={styles.confirm} onPress={ onSaveSign}>
                     <Text style={{ fontWeight: 'bold', color: isSigned ? 'white' : '#A6ACAF' }}>Confirm</Text>
                 </Pressable>
             </View>
@@ -117,5 +128,4 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         borderRadius: 10,
     },
-
 })
