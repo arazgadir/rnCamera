@@ -1,15 +1,21 @@
-import React, { useState, useRef, useCallback } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { View, Text, Pressable, StyleSheet, Alert } from 'react-native'
 import { CloseModalHeader } from '../Components/CloseModalHeader'
 import QRCode from 'react-native-qrcode-svg'
 // @ts-ignore
 import SignatureCapture from 'react-native-signature-capture';
+import { Route } from '@react-navigation/native';
 
-export const QRcode = () => {
+export const QRcode = ({ route }) => {
+    const linkData = route.params
     const link = "http://awesome.link.qr"
     const signatureViewRef = useRef<any>();
     const [isManualSign, setIsManualSign] = useState(false)
     const [isSigned, setIsSigned] = useState(false)
+
+useEffect(()=> {
+    linkData && setIsManualSign(true)
+}, [])
 
     const addManuallySign = () => {
         if (isManualSign) {

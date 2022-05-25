@@ -3,12 +3,16 @@ import { View, StyleSheet, Text, Alert } from 'react-native'
 import { RNCamera } from 'react-native-camera';
 import { CloseModalHeader } from '../Components/CloseModalHeader';
 import BarcodeMask from 'react-native-barcode-mask';
+import { useNavigation } from '@react-navigation/native';
 
 export const Scanner = () => {
     const cameraRef = useRef<any>();
+    const navigation = useNavigation();
     
     const OnBarcodeRead = (e: any) => {
         Alert.alert(e.data)
+        navigation.navigate('QRcode', 
+        {params: e.data})
     }
     return (
         <View style={styles.container} >

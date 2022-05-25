@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     cameraBtn: {
         borderWidth: 2,
         padding: 10,
-        backgroundColor: 'black',
+        backgroundColor: 'grey',
         margin: 5
     }
 })
