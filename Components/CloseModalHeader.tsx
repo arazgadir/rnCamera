@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from 'react';
 import { StyleSheet, View, Pressable, Image, Text } from 'react-native';
-import { closeIcon } from '../Assets/Icons';
 import { useNavigation } from '@react-navigation/native';
+import { closeIcon } from '../Assets/Icons'
 
 type Props = {
     style?: any

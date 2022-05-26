@@ -5,6 +5,7 @@ import { Home } from './Screens/Home';
 import { Camera } from './Screens/Camera';
 import { Scanner } from './Screens/Scanner';
 import { QRcode } from './Screens/QRcode';
+import { CarouselCamera } from './Screens/CarouselCamera';
 
 const { Screen, Navigator, Group } = createNativeStackNavigator();
 export const App = () => {
@@ -27,6 +28,11 @@ export const App = () => {
           <Screen
             name='QRcode'
             component={QRcode}
+            options={{ headerShown: false }}
+          />
+          <Screen
+            name='CarouselCamera'
+            component={CarouselCamera}
             options={{ headerShown: false }}
           />
         </Group>
