@@ -1,12 +1,30 @@
-import React, { useRef } from 'react'
-import { StyleSheet, View, Text, Pressable } from 'react-native'
+import React, { useRef, useState } from 'react'
+import { StyleSheet, View, Text, Pressable, FlatList } from 'react-native'
 import { RNCamera } from 'react-native-camera';
 import { CloseModalHeader } from '../Components/CloseModalHeader';
 
-
 export const CarouselCamera = () => {
+    const [onFocus, setOnFocus] = useState(false)
     const cameraRef = useRef<any>();
-
+    let flatlistRef = useRef<any>()
+    const DATA = [
+        { id: "1", title: "A", },
+        { id: "2",  title: "B", },
+        { id: "3",  title: "C", },
+        { id: "4", title: "D", },
+        { id: "5", title: "E", },
+        { id: "6", title: "F", },
+        { id: "7", title: "G", },
+      ];
+    const RenderItem = ({item} : any) => {
+        console.log
+          return    (
+                <Pressable  onPress={takePicture} style={{...styles.takePicture, backgroundColor: 'black'}}>
+                    <Text>{item.id}</Text>
+                </Pressable>
+            );
+    }
+    
     const takePicture = async () => {
         if (cameraRef) {
             const options = { quality: 0.5, base64: true };
@@ -29,19 +47,26 @@ export const CarouselCamera = () => {
                 }}
             >
                 <CloseModalHeader style={styles.headerCarouselCam} />
-
                 <View style={styles.CarouslCamFooter}>
                     <Pressable style={styles.reload}>
                         <Text> ph </Text>
                     </Pressable>
                     <Text style={styles.footerText}>RIGHT FRONT DOOR</Text>
                 </View>
+
             </RNCamera>
-
-            <Pressable onPress={takePicture} style={{ ...styles.takePicture, backgroundColor: 'white' }}>
-                <Text>✓</Text>
-            </Pressable>
-
+            <FlatList
+                data={DATA}
+                renderItem={({item})=> {
+                    return <RenderItem item={item}/>
+                }}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                ref={(ref) => {
+                    flatlistRef.current = ref
+                }}
+                style={styles.carousel}
+            />
         </View>
     )
 }
@@ -56,8 +81,8 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end',
         backgroundColor: 'black',
         opacity: 0.5
-
     },
+
     previewCam: {
         flex: 1,
         justifyContent: 'space-between',
@@ -81,15 +106,20 @@ const styles = StyleSheet.create({
         marginLeft: 50
     },
     takePicture: {
-        flex: 1,
-        backgroundColor: '#fff',
         borderRadius: 40,
         padding: 26,
         paddingHorizontal: 30,
         alignSelf: 'center',
         justifyContent: 'flex-end',
+        margin: 10,
+        borderWidth: 1,
+        borderColor: 'grey',
+        backgroundColor: 'black'
+    },
+    carousel: {
+        flex: 1,
         position: 'absolute',
         zIndex: 1,
-        bottom: '15%'
+        bottom: '15%',
     }
 })
