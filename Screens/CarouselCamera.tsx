@@ -27,13 +27,6 @@ export const CarouselCamera = () => {
         { id: "13", title: "F", },
         { id: "14", title: "G", },
     ];
-    // const RenderItem = ({ item }: any) => {
-    //     return (
-    //         <Pressable onPress={takePicture} style={{ ...styles.takePicture, backgroundColor:'black' }}>
-    //             <Text>{item.id}</Text>
-    //         </Pressable>
-    //     );
-    // }
 
     const takePicture = async () => {
         if (cameraRef) {
@@ -77,8 +70,8 @@ useEffect(()=> {
                     </Pressable>
                     <Text style={styles.footerText}>RIGHT FRONT DOOR</Text>
                 </View>
-
             </RNCamera>
+
             {isTakenPhoto ?
                 <View style={{ ...styles.takePicture, position: 'absolute', bottom: '15%', backgroundColor: '#3785F7' }}>
                     <Text>✓</Text>
@@ -89,9 +82,9 @@ useEffect(()=> {
                     renderItem={({ item, index: fIndex }) => {
                         return (
                             <Pressable onPress={()=> {
-                                setIndex(fIndex)
-                            }} style={{ ...styles.takePicture, backgroundColor: fIndex === index?  'grey' : 'black' }}>
-                                <Text>{item.id}</Text>
+                                fIndex === index? takePicture() :  setIndex(fIndex) 
+                            }} style={{ ...styles.takePicture, backgroundColor: fIndex === index?  'white' : 'black' }}>
+                                <Text style={{color: fIndex === index? 'black' : 'white'}}>{item.id}</Text>
                             </Pressable>
                         )
                     }}
