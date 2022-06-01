@@ -2,23 +2,21 @@ import React, { useEffect, useState } from 'react'
 import { Dimensions, View, Text, StyleSheet } from 'react-native'
 // @ts-ignore
 import RNImageToPdf from 'react-native-image-to-pdf';
-
+import Pdf from 'react-native-pdf';
 
 export const PicToPdf = () => {
 	const [picturePdf, setpicturePdf] = useState(null)
-	// const photoPath = ['https://images.pexels.com/photos/20787/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=350',
-	// 'https://images.pexels.com/photos/20787/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=350'];
 
 	const MyAsyncPDFFunction = async () => {
 		try {
 			const options = {
-				imagePaths: ['../Assets/Images/car1.png', '../Assets/Images/car2.png'],
+				imagePaths: ['/Assests/Images/car1.png', '/Assests/Images/car1.png'],
 				name: 'PDFName',
 			};
 			const pdf = await RNImageToPdf.createPDFbyImages(options);
 			setpicturePdf(pdf.filePath)
 		} catch (e) {
-			console.log('errrooooooooooooooooor--->>>>', e);
+			console.log('error--->>>>', e);
 		}
 
 	}
@@ -30,7 +28,15 @@ export const PicToPdf = () => {
 
 	return (
 		<View style={styles.container}>
-				{picturePdf}
+		<Pdf
+                    source={picturePdf}
+                    onLoadComplete={(numberOfPages,filePath) => {
+                        console.log(`Number of pages: ${numberOfPages}`);
+                    }}
+                    onError={(error: any) => {
+                        console.log(error);
+                    }}
+                    style={styles.pdf}/>
 		</View>
 	)
 }
