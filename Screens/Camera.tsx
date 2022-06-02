@@ -21,7 +21,8 @@ export const Camera = () => {
             pic.push(data.uri)
         }
         else if (takePic && !isAddPicAllowed) {
-            navigation.goBack() //for example
+            navigation.navigate('PicToPdf',
+            {params : pic})
         }
         setTakepic(true);
         setIsAddPicVisible(true)

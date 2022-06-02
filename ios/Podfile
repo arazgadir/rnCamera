@@ -21,6 +21,8 @@ target 'Workbook' do
 
   pod 'RNImageToPdf', :path => '../node_modules/react-native-image-to-pdf'
 
+  pod 'RNReactNativePdfLib', :path => '../node_modules/react-native-pdf-lib'
+
   target 'WorkbookTests' do
     inherit! :complete
     # Pods for testing
