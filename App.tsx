@@ -6,6 +6,7 @@ import { Camera } from './Screens/Camera';
 import { Scanner } from './Screens/Scanner';
 import { QRcode } from './Screens/QRcode';
 import { CarouselCamera } from './Screens/CarouselCamera';
+import { PicToPdf } from './Components/PicToPdf';
 
 const { Screen, Navigator, Group } = createNativeStackNavigator();
 export const App = () => {
@@ -33,6 +34,11 @@ export const App = () => {
           <Screen
             name='CarouselCamera'
             component={CarouselCamera}
+            options={{ headerShown: false }}
+          />
+          <Screen
+            name='PicToPdf'
+            component={PicToPdf}
             options={{ headerShown: false }}
           />
         </Group>

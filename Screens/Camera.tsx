@@ -41,7 +41,8 @@ export const Camera = () => {
 
     const handleReloadCam = () => {
         if (!takePic) {
-            navigation.goBack() //for exaple
+            navigation.navigate('PicToPdf',
+            {params: pic})
         } else {
             setTakepic(prev => !prev)
             setCountPic(0)

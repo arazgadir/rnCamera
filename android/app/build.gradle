@@ -258,6 +258,8 @@ android {
 
         }
     }
+
+    dexOptions { jumboMode = true }
 }
 
 dependencies {
