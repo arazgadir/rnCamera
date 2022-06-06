@@ -21,6 +21,9 @@ export const Home: FC<Props> = ({navigation}) => {
             <Pressable style={styles.cameraBtn} onPress={() => navigation.navigate('CarouselCamera')}>
                 <Text> Open Carousel Camera </Text>
             </Pressable>
+            <Pressable style={styles.cameraBtn} onPress={() => navigation.navigate('PicToPdf')}>
+                <Text> PDF </Text>
+            </Pressable>
         </View>
     )
 }
