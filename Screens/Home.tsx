@@ -13,7 +13,7 @@ export const Home: FC<Props> = ({ navigation }) => {
                 <Text style={styles.headerText}> WORKBOOK </Text>
             </View>
             <View style={styles.container}> 
-                <Pressable 
+                <Pressable  
                     style={({ pressed }) => [styles.cameraBtn, { opacity: pressed ? 0.5 : 1 }]}
                     onPress={() => navigation.navigate('Camera')}>
                     <Text style={styles.topic}>  Camera </Text>
