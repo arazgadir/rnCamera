@@ -65,7 +65,10 @@ useEffect(()=> {
             >
                 <CloseModalHeader style={styles.headerCarouselCam} />
                 <View style={styles.CarouslCamFooter}>
-                    <Pressable onPress={() => reload()} style={styles.reload}>
+                    <Pressable
+                    style={({pressed})=>  [styles.reload, {opacity: pressed? 0.5 : 1}]}
+                    onPress={() => reload()} 
+                    >
                         <Text> {isTakenPhoto ? 're' : 'ph'}  </Text>
                     </Pressable>
                     <Text style={styles.footerText}>RIGHT FRONT DOOR</Text>
@@ -83,7 +86,7 @@ useEffect(()=> {
                         return (
                             <Pressable onPress={()=> {
                                 fIndex === index? takePicture() :  setIndex(fIndex) 
-                            }} style={{ ...styles.takePicture, backgroundColor: fIndex === index?  'white' : 'black' }}>
+                            }} style={({pressed})=>  [styles.takePicture,{ backgroundColor: fIndex === index?  'white' : 'black', opacity: pressed? 0.5 : 1} ]}>
                                 <Text style={{color: fIndex === index? 'black' : 'white'}}>{item.id}</Text>
                             </Pressable>
                         )
@@ -124,11 +127,11 @@ const styles = StyleSheet.create({
     reload: {
         backgroundColor: 'grey',
         flex: 0,
-        borderRadius: 50 / 2,
+        borderRadius: 30,
         borderWidth: 2,
         borderColor: 'white',
         margin: 20,
-        padding: 15
+        padding: 15,
     },
     footerText: {
         alignSelf: 'center',

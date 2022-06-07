@@ -41,7 +41,7 @@ export const Camera = () => {
 
     const handleReloadCam = () => {
         if (!takePic) {
-            navigation.goBack() //for exaple
+            console.log('ph')
         } else {
             setTakepic(prev => !prev)
             setCountPic(0)
@@ -95,24 +95,31 @@ export const Camera = () => {
                     : <></>
                 }
             </RNCamera>
-            <View style={{  ...styles.camFooter2, right: isAddPicVisible? 0 : 50 }}>
-                <Pressable onPress={() => handleReloadCam()} style={styles.showPic}>
+            <View style={{ ...styles.camFooter2, right: isAddPicVisible ? 0 : 50 }}>
+                <Pressable
+                    style={({ pressed }) => [styles.showPic, { opacity: pressed ? 0.5 : 1 }]}
+                    onPress={() => handleReloadCam()} >
                     <Text>{takePic ? 're' : 'ph'}</Text>
                 </Pressable>
-                <Pressable onPress={takePicture} style={{ ...styles.capture, backgroundColor: takePic ? 'blue' : 'white' }}>
+                <Pressable
+                    style={({ pressed }) => [styles.capture, { backgroundColor: takePic ? 'blue' : 'white', opacity: pressed ? 0.5 : 1 }]}
+                    onPress={takePicture}>
                     <Text>✓</Text>
                 </Pressable>
                 {isAddPicVisible ?
-                    <Pressable onPress={() => handleAddPhoto()} style={styles.showPic}>
+                    <Pressable
+                        style={({ pressed }) => [styles.showPic, { opacity: pressed ? 0.5 : 1 }]}
+                        onPress={() => handleAddPhoto()}
+                    >
                         <Text> {isAddPicAllowed ? countPic || '+' : 'x'} </Text>
                     </Pressable> : <></>
                 }
             </View>
-            <View style={styles.docFooter}>
-                <Pressable onPress={() => setIsOtherDoc(false)} style={isOtherDoc ? null : styles.docTypeChoosen}>
+            <View style={isOtherDoc? styles.docFooter : styles.billFooter}>
+                <Pressable onPress={() => setIsOtherDoc(false)} style={({ pressed }) => isOtherDoc ? null : [styles.docTypeChoosen, { opacity: pressed ? 0.5 : 1 }]}>
                     <Text style={{ color: isOtherDoc ? 'white' : 'black', }} > Bill of Lading </Text>
                 </Pressable>
-                <Pressable onPress={() => setIsOtherDoc(true)} style={isOtherDoc ? styles.docTypeChoosen : null} >
+                <Pressable onPress={() => setIsOtherDoc(true)} style={({ pressed }) => isOtherDoc ? [styles.docTypeChoosen, { opacity: pressed ? 0.5 : 1 }] : null} >
                     <Text style={{ color: isOtherDoc ? 'black' : 'white' }} > Other Document </Text>
                 </Pressable>
             </View>
@@ -168,9 +175,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingBottom: 20,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         backgroundColor: 'grey ',
-        alignContent: 'space-around'
+        alignContent: 'space-around',
+        marginLeft: 20
     },
     docTypeChoosen: {
         backgroundColor: '#fff',
@@ -197,5 +205,14 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 10,
         top: 5,
+    },
+    billFooter: {
+        flexDirection: 'row',
+        paddingBottom: 20,
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        backgroundColor: 'grey ',
+        alignContent: 'space-around',
+        marginRight: 20
     }
 })

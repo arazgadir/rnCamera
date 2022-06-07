@@ -13,9 +13,9 @@ export const QRcode = ({ route }) => {
     const [isManualSign, setIsManualSign] = useState(false)
     const [isSigned, setIsSigned] = useState(false)
 
-useEffect(()=> {
-    linkData && setIsManualSign(true)
-}, [])
+    useEffect(() => {
+        linkData && setIsManualSign(true)
+    }, [])
 
     const addManuallySign = () => {
         if (isManualSign) {
@@ -28,7 +28,7 @@ useEffect(()=> {
 
     const onSaveSign = () => {
         console.log('is SIGNED IN FUNCTION: ', isSigned)
-        if(isSigned){
+        if (isSigned) {
             signatureViewRef.current.saveImage()
             Alert.alert('Sign saved sucsessfully')
             setIsSigned(false)
@@ -42,7 +42,7 @@ useEffect(()=> {
 
     const onSaveEvent = (result: any) => {
         console.log(result.encoded)
-    } 
+    }
 
     return (
         <View style={styles.container}>
@@ -72,10 +72,14 @@ useEffect(()=> {
 
             </View>
             <View style={styles.buttonsQr}>
-                <Pressable style={styles.AddManually} onPress={addManuallySign}>
+                <Pressable
+                    style={({ pressed }) => [styles.AddManually, { opacity: pressed ? 0.5 : 1 }]}
+                    onPress={addManuallySign}>
                     <Text style={{ fontWeight: 'bold', color: isSigned ? 'white' : '#A6ACAF' }}> {isManualSign ? 'Retake' : 'Add Manually'} </Text>
                 </Pressable>
-                <Pressable style={styles.confirm} onPress={ onSaveSign}>
+                <Pressable
+                    style={({ pressed }) => [styles.confirm, { opacity: pressed ? 0.5 : 1 }]}
+                    onPress={onSaveSign}>
                     <Text style={{ fontWeight: 'bold', color: isSigned ? 'white' : '#A6ACAF' }}>Confirm</Text>
                 </Pressable>
             </View>

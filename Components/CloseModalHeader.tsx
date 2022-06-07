@@ -15,7 +15,7 @@ export const CloseModalHeader = (props: Props) => {
             {props.headerText &&
                 <Text style={styles.headerText}>{props.headerText}</Text>
             }
-            <Pressable onPress={() => navigation.goBack()}>
+            <Pressable style={({pressed}) => [{opacity: pressed? 0.5 : 1}]} onPress={() => navigation.goBack()}>
                 <Image style={styles.closeIcon} resizeMode="contain" source={closeIcon} />
             </Pressable>
         </View>
