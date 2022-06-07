@@ -12,7 +12,7 @@ export const Home: FC<Props> = ({ navigation }) => {
             <View style={styles.header}> 
                 <Text style={styles.headerText}> WORKBOOK </Text>
             </View>
-            <View style={styles.container}>
+            <View style={styles.container}> 
                 <Pressable
                     style={({ pressed }) => [styles.cameraBtn, { opacity: pressed ? 0.5 : 1 }]}
                     onPress={() => navigation.navigate('Camera')}>
