@@ -9,7 +9,7 @@ interface Props {
 export const Home: FC<Props> = ({ navigation }) => {
     return (
         <View style={{ flex: 1 }}>
-            <View style={styles.header}>
+            <View style={styles.header}> 
                 <Text style={styles.headerText}> WORKBOOK </Text>
             </View>
             <View style={styles.container}>
